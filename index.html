@@ -95,8 +95,7 @@ code .regexp { color: #219161; }
 code .keyword { color: #954121; }
 code .number { color: #19469D; }
 code .comment { color: #bbb; }
-code .this { color: #19469D; }
-table#source td.docs { min-width:450px }</style>
+code .this { color: #19469D; }</style>
 		<script>
 			$(function(){
 				$('tr.code').hide();
@@ -109,39 +108,7 @@ table#source td.docs { min-width:450px }</style>
 		</script>
 	</head>
 	<body>
-<table id="source"><tbody><tr><td><h1>node-hashring</h1></td><td></td></tr><tr class="filename"><td><h2 id="lib/bisection.js"><a href="#">bisection</a></h2></td><td>lib/bisection.js</td></tr><tr class="code">
-<td class="docs">
-<p>Calculates the index of the Array where item X should be placed, assuming the Array is sorted.</p>
-
-<h2></h2>
-
-<ul><li><p><strong>param</strong>: <em>Array</em>  array The array containing the items.</p></li><li><p><strong>param</strong>: <em>Number</em>  x The item that needs to be added to the array.</p></li><li><p><strong>param</strong>: <em>Number</em>  low Inital Index that is used to start searching, optional.</p></li><li><p><strong>param</strong>: <em>Number</em>  high The maximum Index that is used to stop searching, optional.</p></li><li><p><strong>returns</strong>: <em>Number</em>  the index where item X should be placed</p></li></ul>
-</td>
-<td class="code">
-<pre><code><span class="variable">exports</span>.<span class="class">Bisection</span> = <span class="keyword">function</span> <span class="variable">bisection</span>(<span class="variable">array</span>, <span class="variable">x</span>, <span class="variable">low</span>, <span class="variable">high</span>){
-  <span class="comment">// The low and high bounds the inital slice of the array that needs to be searched</span>
-  <span class="comment">// this is optional</span>
-  <span class="variable">low</span> = <span class="variable">low</span> || <span class="number integer">0</span>;
-  <span class="variable">high</span> = <span class="variable">high</span> || <span class="variable">array</span>.<span class="variable">length</span>;
-  
-  <span class="keyword">var</span> <span class="variable">mid</span>;
-  
-  <span class="keyword">if</span> (<span class="variable">low</span> &<span class="variable">lt</span>; <span class="number integer">0</span>) <span class="keyword">throw</span> <span class="keyword">new</span> <span class="class">Error</span>(<span class="string">'Low must be a non-negative integer'</span>);
-  
-  <span class="keyword">while</span>(<span class="variable">low</span> &<span class="variable">lt</span>; <span class="variable">high</span>){
-    <span class="variable">mid</span> = <span class="class">Math</span>.<span class="variable">floor</span>((<span class="variable">low</span> + <span class="variable">high</span>) / <span class="number integer">2</span>);
-    
-    <span class="keyword">if</span> (<span class="variable">x</span> &<span class="variable">lt</span>; <span class="variable">array</span>[<span class="variable">mid</span>]){
-      <span class="variable">high</span> = <span class="variable">mid</span>;
-    } <span class="keyword">else</span> {
-      <span class="variable">low</span> = <span class="variable">mid</span> + <span class="number integer">1</span>;
-    }
-  }
-  
-  <span class="keyword">return</span> <span class="variable">low</span>;
-};</code></pre>
-</td>
-</tr><tr class="filename"><td><h2 id="lib/hashring.js"><a href="#">hashring</a></h2></td><td>lib/hashring.js</td></tr><tr class="code">
+<table id="source"><tbody><tr><td><h1>node-hashring</h1></td><td></td></tr><tr class="filename"><td><h2 id="lib/hashring.js"><a href="#">hashring</a></h2></td><td>lib/hashring.js</td></tr><tr class="code">
 <td class="docs">
 <p>Module dependencies
  </p>
@@ -149,7 +116,7 @@ table#source td.docs { min-width:450px }</style>
 <td class="code">
 <pre><code><span class="keyword">var</span> <span class="class">CreateHash</span> = <span class="variable">require</span>(<span class="string">'crypto'</span>).<span class="variable">createHash</span>
   , <span class="class">StringDecoder</span> = <span class="variable">require</span>(<span class="string">'string_decoder'</span>).<span class="class">StringDecoder</span>
-  , <span class="class">Bisection</span> = <span class="variable">require</span>(<span class="string">'./bisection'</span>).<span class="class">Bisection</span>;</code></pre>
+  , <span class="class">Bisection</span> = <span class="variable">require</span>(<span class="string">'bisection'</span>);</code></pre>
 </td>
 </tr>
 <tr class="code">
@@ -230,14 +197,15 @@ the node</p>
 <td class="docs">
 <p>Returns the position of the key inside the keyring</p>
 
-<ul><li><p><strong>todo</strong>: <em>Remove</em>
-the Object.keys lookup, or just cache the <code>keys</code> on regeneration.
-## </p></li><li><p><strong>param</strong>: <em>String</em>  key The key that needs his it's position calculated.</p></li><li><p><strong>returns</strong>: <em>Number</em>  the index of sortedKeys</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  key The key that needs his it's position calculated.</p></li><li><p><strong>returns</strong>: <em>Number</em>  the index of sortedKeys</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">HashRing</span>.<span class="variable">getNodePosition</span> = <span class="keyword">function</span>(<span class="variable">key</span>){
-  <span class="keyword">if</span> (!<span class="class">Object</span>.<span class="variable">keys</span>(<span class="this">this</span>.<span class="variable">ring</span>).<span class="variable">length</span>)
+  <span class="keyword">if</span> (!<span class="this">this</span>.<span class="variable">sortedKeys</span>.<span class="variable">length</span>){
     <span class="keyword">return</span> <span class="variable">false</span>;
+  }
   
   <span class="keyword">var</span> <span class="variable">keys</span> = <span class="this">this</span>.<span class="variable">generateKey</span>(<span class="variable">key</span>)
     , <span class="variable">nodes</span> = <span class="this">this</span>.<span class="variable">sortedKeys</span>
@@ -311,11 +279,35 @@ the same arguments interface as the constructor.
 </tr>
 <tr class="code">
 <td class="docs">
+<p>Removes a server from the ring and regenerates the ring.</p>
+
+<h2></h2>
+
+<ul><li><p><strong>param</strong>: <em>String</em>  server The IP of the server that needs to be removed</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+</td>
+<td class="code">
+<pre><code><span class="class">HashRing</span>.<span class="variable">removeServer</span> = <span class="keyword">function</span>(<span class="variable">server</span>){
+  <span class="keyword">var</span> <span class="variable">index</span> = <span class="this">this</span>.<span class="variable">nodes</span>.<span class="variable">indexOf</span>(<span class="variable">server</span>);
+  <span class="keyword">if</span> (<span class="variable">index</span> == -<span class="number integer">1</span>) <span class="keyword">return</span>; <span class="comment">// no need to re-generate the whole ring, no match</span>
+  
+  <span class="this">this</span>.<span class="variable">nodes</span>.<span class="variable">splice</span>(<span class="variable">index</span>, <span class="number integer">1</span>);
+  <span class="keyword">if</span> (<span class="this">this</span>.<span class="variable">weights</span>[<span class="variable">server</span>]){
+    <span class="keyword">delete</span> <span class="this">this</span>.<span class="variable">weights</span>[<span class="variable">server</span>];
+  }
+  <span class="comment">// clear all old caches and regenerate</span>
+  <span class="this">this</span>.<span class="variable">ring</span> = {};
+  <span class="this">this</span>.<span class="variable">cache</span> = {};
+  <span class="this">this</span>.<span class="variable">generateRing</span>();
+};</code></pre>
+</td>
+</tr>
+<tr class="code">
+<td class="docs">
 <p>Iterates over the nodes for a give key, can be used to create redundancy support.</p>
 
 <h2></h2>
 
-<ul><li><p><strong>param</strong>: <em>String</em>  key The key that should get a range</p></li><li><p><strong>param</strong>: <em>Number</em>  size The maxium amount of nodes to return</p></li><li><p><strong>param</strong>: <em>Boolean</em>  distinct Get duplicate nodes</p></li><li><p><strong>returns</strong>: <em>Array</em>  The nodes</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
+<ul><li><p><strong>param</strong>: <em>String</em>  key The key that should get a range</p></li><li><p><strong>param</strong>: <em>Number</em>  size The maxium amount of nodes to return</p></li><li><p><strong>param</strong>: <em>Boolean</em>  distinct Remove duplicate nodes</p></li><li><p><strong>returns</strong>: <em>Array</em>  The nodes</p></li><li><p><strong>api</strong>: <em>public</em></p></li></ul>
 </td>
 <td class="code">
 <pre><code><span class="class">HashRing</span>.<span class="variable">createRange</span> = <span class="keyword">function</span>(<span class="variable">key</span>, <span class="variable">size</span>, <span class="variable">distinct</span>){
@@ -442,7 +434,7 @@ the same arguments interface as the constructor.
  </p>
 </td>
 <td class="code">
-<pre><code><span class="variable">hashRing</span>.<span class="variable">version</span> = <span class="string">'0.0.2'</span>;
+<pre><code><span class="variable">hashRing</span>.<span class="variable">version</span> = <span class="string">'0.0.3'</span>;
 
 <span class="variable">module</span>.<span class="variable">exports</span> = <span class="variable">hashRing</span>;</code></pre>
 </td>
